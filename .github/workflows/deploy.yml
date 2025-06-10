@@ -28,6 +28,8 @@ jobs:
         run: |
           cd backend
           pytest
+        env:
+          SQLALCHEMY_DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
   frontend:
     name: Frontend CI
