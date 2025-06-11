@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { Item, ItemCreate } from '../types/item';
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 export const getItems = async (): Promise<Item[]> => {
     const response = await axios.get<Item[]>(`${BASE_URL}/items`);
