@@ -7,6 +7,9 @@ from init_db import create_tables
 from schemas import Item, ItemCreate
 from database import get_db
 from sqlalchemy.orm import Session
+from tasks import create_item_task
+
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -28,9 +31,11 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World"}
 
-@app.post("/items", response_model=Item)
-def create(item: ItemCreate, db: Session = Depends(get_db)):
-    return crud.create_item(db, item)
+@app.post("/items")
+def create(item: ItemCreate):
+    create_item_task.delay(item.dict())  
+    return {"message": "Item creation task submitted"}
+
 
 @app.get("/items", response_model=List[Item])
 def read_items(db: Session = Depends(get_db)):

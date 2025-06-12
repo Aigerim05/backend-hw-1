@@ -17,6 +17,7 @@ export default function ItemForm({ onSubmit, initial }: Props) {
     setName('');
     setPassword('');
     setDescription('');
+
   };
 
   return (
