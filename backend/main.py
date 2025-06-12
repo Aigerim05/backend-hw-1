@@ -9,6 +9,8 @@ from database import get_db
 from sqlalchemy.orm import Session
 from tasks import create_item_task
 
+# ✅ Новый импорт
+from assistant.a2a_router import router as assistant_router
 
 
 @asynccontextmanager
@@ -17,7 +19,6 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,7 +36,6 @@ async def root():
 def create(item: ItemCreate):
     create_item_task.delay(item.dict())  
     return {"message": "Item creation task submitted"}
-
 
 @app.get("/items", response_model=List[Item])
 def read_items(db: Session = Depends(get_db)):
@@ -62,3 +62,5 @@ def delete(item_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Item not found")
     return {"message": "Item deleted"}
 
+# ✅ Подключаем ассистент-роутер
+app.include_router(assistant_router)

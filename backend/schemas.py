@@ -15,4 +15,4 @@ class Item(ItemBase):
     id: int
 
     class Config:
-        orm_mode = True  # Important to read data from SQLAlchemy model
+       from_attributes = True
