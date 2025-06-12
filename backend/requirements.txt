@@ -21,3 +21,4 @@ typing_extensions==4.14.0
 uvicorn==0.34.3
 celery==5.3.6
 redis==5.0.4
+alembic==1.13.1
